@@ -110,7 +110,7 @@ def main():
     if len(songs) == 0:
         print("No songs found.")
         sys.exit(-1)
-    #create_spotify_playlist(songs)
+    create_spotify_playlist(songs)
 
 if __name__ == "__main__":
     main()
