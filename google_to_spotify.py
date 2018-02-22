@@ -1,6 +1,7 @@
 import sys
 import spotipy
 import webbrowser
+import getpass
 
 from builtins import input
 from urllib import parse
@@ -14,7 +15,7 @@ def get_google_tracklist():
     """
     api = Mobileclient()
     login_email = input("Enter your Google email address:  ")
-    login_password = input("Enter the password for your Google account:  "  )
+    login_password = getpass.getpass("Enter the password for your Google account:  ")
     
     print("Authenticating to Google...")
     if not api.login(login_email, login_password, Mobileclient.FROM_MAC_ADDRESS):
@@ -109,7 +110,7 @@ def main():
     if len(songs) == 0:
         print("No songs found.")
         sys.exit(-1)
-    create_spotify_playlist(songs)
+    #create_spotify_playlist(songs)
 
 if __name__ == "__main__":
     main()
