@@ -1,5 +1,6 @@
 import sys
 import spotipy
+import webbrowser
 
 from builtins import input
 from urllib import parse
@@ -34,11 +35,29 @@ def get_google_tracklist():
     
     
 def create_spotify_playlist(track_list):
+    
+    url = 'https://accounts.spotify.com/authorize?client_id=dad7b372b95742f2b718c89f94f9b364&response_type=token&redirect_uri=http://localhost/&scope=user-read-private playlist-modify-private playlist-modify-public'
+    webbrowser.open(url)
 
-    token = util.prompt_for_user_token('1247102269','user-read-private playlist-modify-private playlist-modify-public',client_id='4cbce5b387d94db1b0af2dfb99792f02',
-                                   client_secret='',redirect_uri='http://localhost/')
+    url = input("Paste in the URL for where your browser redirected you: ")
+    try:
+        print(url)
+        keys = url.split('#')[1].split('&')
+        access_key = None
+        for key in keys:
+            k, v = key.split('=')
+            if k == 'access_token':
+                access_key = v
+                break
+        if not access_key:
+            print("Failed to get access token from that URL.")
+            sys.exit(-1)
+    except:
+        print("Failed to authenticate.")
+        sys.exit(-1)
+    
     print("Authenticating...")
-    sp = spotipy.Spotify(auth=token)
+    sp = spotipy.Spotify(auth=access_key)
     print("Getting your information...")
     try:
         user_data = sp.me()
@@ -87,6 +106,9 @@ def create_spotify_playlist(track_list):
 def main():
 
     songs = get_google_tracklist()
+    if len(songs) == 0:
+        print("No songs found.")
+        sys.exit(-1)
     create_spotify_playlist(songs)
 
 if __name__ == "__main__":
