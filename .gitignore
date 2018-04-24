@@ -2,3 +2,6 @@
 .vscode
 .cache*
 venv
+.spotify
+exceptions.py
+*.pyc
