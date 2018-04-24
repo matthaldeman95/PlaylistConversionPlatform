@@ -32,6 +32,7 @@ class GoogleClient(object):
         """
         query = track_name + ',' + artist + ',' + album
         result = self.api.search(query)
+        print(result)
         song_hits = result['song_hits']
         # TODO this search has gotta get better...
         for h in song_hits:
@@ -106,5 +107,7 @@ class GoogleClient(object):
 
 
 if __name__ == "__main__":
-    pass
+    g = GoogleClient()
+    g.authenticate()
+    g._search_for_track(album="Evergreen", artist="Broods", track_name="Bridges")
     # Need to log out of google api session
