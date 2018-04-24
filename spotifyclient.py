@@ -26,7 +26,7 @@ class SpotifyClient(object):
         Store token on disk for caching
         """
         with open('.spotify', 'w') as outfile:
-            outfile.write(self.auth_key)
+            outfile.write(str(self.auth_key))
 
     def _load_token(self):
         """
