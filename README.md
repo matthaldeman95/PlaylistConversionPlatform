@@ -1,6 +1,6 @@
 # PCP - Playlist Conversion Platform
 
-Script to convert a platform from one music service to another.  So I can share my Google Play playlists with Spotifyers and vice versa.  
+Script to convert a playlist from one music service to another.  So I can share my Google Play playlists with Spotifyers and vice versa.  
 
 Currently supported:  Google Play Music and Spotify
 
@@ -32,7 +32,9 @@ Each service is an object with at minimum the following public methods:
     - add_tracks_to_playlist(playlist_id, track_list) - Adds list of tracks to playlist
         Returns nothing intelligent currently, haven't decided what this should return yet
 
-New services can be plugged in by creating their class and methods in a new file, importing it into main, and adding the service into the `services` attribute of PlaylistConverter class
+New services can be plugged in by creating their class and methods in a new file, importing it into main, and adding the service into the `services` attribute of PlaylistConverter class.
+
+Service classes are standardized so that the same main routine can be called independent of the selected services.
 
 # Setup
 
