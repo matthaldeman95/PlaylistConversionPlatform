@@ -82,7 +82,7 @@ if not playlist_tracks:
     print("No tracks found on that playlist")
     sys.exit(-2)
 
-
+# Search for destination service tracks
 destination_tracks = pc.destination_client.search_for_tracklist(playlist_tracks)
 found_tracks = destination_tracks['found']
 not_found_tracks = destination_tracks['not_found']
@@ -95,6 +95,7 @@ if not found_tracks:
     print("Could not successfully find any of those tracks in destination service")
     sys.exit(-3)
 
+# Get playlist name and create playlist
 print("Current source playlist name:  {}".format(playlist_name))
 selection = input("Type name for new playlist (leave blank to use current name):  ")
 if selection:
@@ -105,4 +106,5 @@ if not created_playlist_id:
     print("Could not create destination playlist")
     sys.exit(-4)
 
+# Populate playlist with track list
 pc.destination_client.add_tracks_to_playlist(created_playlist_id, found_tracks)
