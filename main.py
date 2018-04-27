@@ -30,9 +30,14 @@ class PlaylistConverter(object):
         """
         self.describe_services()
         print("Please select a source service")
-        self.source_client = self.get_service()['client']
+        source_index = self.get_service()
+        self.source_client = self.services[source_index]['client']
         print("Please select a destination service")
-        self.destination_client = self.get_service()['client']
+        destination_index = self.get_service()
+        if source_index == destination_index:
+            self.destination_client = self.source_client
+        else:
+            self.destination_client = self.services[destination_index]['client']
 
     def get_service(self):
         """
@@ -43,7 +48,7 @@ class PlaylistConverter(object):
                 selection = input("Select the integer corresponding to desired service:  ")
                 selection_index = int(selection)
                 if 0 <= selection_index < len(self.services):
-                    return self.services[selection_index]
+                    return selection_index
                 else:
                     print("Invalid choice")
             except ValueError:
@@ -67,12 +72,16 @@ class PlaylistConverter(object):
 # Authenticate services
 pc = PlaylistConverter()
 pc.get_services()
+print("Authenticating source service")
 source_auth_status = pc.authenticate_service(pc.source_client)
 if not source_auth_status:
     sys.exit(-1)
-destination_auth_status = pc.authenticate_service(pc.destination_client)
-if not destination_auth_status:
-    sys.exit(-1)
+print("Authenticating destination service")
+# No need to authenticate twice if you're using the same service
+if pc.source_client != pc.destination_client:
+    destination_auth_status = pc.authenticate_service(pc.destination_client)
+    if not destination_auth_status:
+        sys.exit(-1)
 
 # Get source playlist tracks and name
 source_playlist = pc.source_client.get_playlist_tracks()
@@ -87,10 +96,12 @@ destination_tracks = pc.destination_client.search_for_tracklist(playlist_tracks)
 found_tracks = destination_tracks['found']
 not_found_tracks = destination_tracks['not_found']
 print("{} tracks not found, would you like to see a list?  ".format(len(not_found_tracks)))
-selection = input("Type y for yes, anything else for no:  ")
-if selection == "y":
-    for t in not_found_tracks:
-        print(t)
+if not_found_tracks:
+    selection = input("Type y for yes, anything else for no:  ")
+    if selection == "y":
+        for t in not_found_tracks:
+            print(t)
+# if not_found_tracks / if not found_tracks - very confusing variable naming there :)
 if not found_tracks:
     print("Could not successfully find any of those tracks in destination service")
     sys.exit(-3)
