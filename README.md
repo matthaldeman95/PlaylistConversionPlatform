@@ -67,5 +67,5 @@ The search for this one is weird.  Apparently users who do not have paid Play Mu
 
 # TODO 
 
-- Handle cases where user selects the same service as both source and destination.  It should currently work but it is overcomplicated - no need to search a service for the Track IDs if you already have them.
+- ~~Handle cases where user selects the same service as both source and destination.  It should currently work but it is overcomplicated - no need to search a service for the Track IDs if you already have them.~~
 - More services!  Apple Music next?  
