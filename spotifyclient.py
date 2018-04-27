@@ -4,7 +4,6 @@ import sys
 import webbrowser
 import requests
 from builtins import input
-import spotipy
 
 
 class SpotifyClient(object):
